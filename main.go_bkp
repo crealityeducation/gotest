@@ -1,0 +1,60 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+func main() {
+	res, err := http.Get("https://fakerapi.it/api/v1/persons?_quantity=2&_gender=female&_birthday_start=2005-01-01")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer res.Body.Close()
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var response Response
+	json.Unmarshal(body, &response)
+
+	for i, p := range response.Persons {
+		fmt.Println("Person ", (i + 1), " : ", p.Firstname, p.Lastname)
+	}
+}
+
+type Response struct {
+	Status  string
+	Code    string
+	Total   int
+	Persons []Person `json:"data"`
+}
+
+type Person struct {
+	Firstname string
+	Lastname  string
+	Email     string
+	Phone     string
+	Birthday  string
+	Gender    string
+	Address   Address
+	Website   string
+	Image     string
+}
+
+type Address struct {
+	Street         string
+	StreetName     string
+	BuildingNumber int
+	City           string
+	Zipcode        int
+	Country        string
+	CountryCode    string `json:"country_code"`
+	Latitude       float64
+	Longitude      float64
+}

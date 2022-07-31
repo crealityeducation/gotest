@@ -1,0 +1,2 @@
+{"level":"info","ts":"2022-08-01T00:28:58+05:30","caller":"gotest/main.go:55","msg":"This is test"}
+{"level":"info","ts":"2022-08-01T00:28:58+05:30","caller":"gotest/main.go:58","msg":"[Samuel Marc]"}
